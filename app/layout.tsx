@@ -107,9 +107,11 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   verification: {
-    // google: "your-google-verification-code",
-    // yandex: "your-yandex-verification-code",
-    // bing: "your-bing-verification-code"
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    other: {
+      'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION || '',
+    }
   },
   alternates: {
     canonical: "/",
@@ -123,14 +125,48 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID;
 
   return (
     <html lang="en">
       <head>
+        {/* Google Analytics */}
+        {gaId && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                    anonymize_ip: true,
+                    cookie_flags: 'SameSite=None;Secure'
+                  });
+                `
+              }}
+            />
+          </>
+        )}
+
+        {/* Google AdSense */}
+        {adsenseId && (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+            crossOrigin="anonymous"
+          />
+        )}
+
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_API_URL || "https://api.iplyzer.com"} />
+        {gaId && <link rel="preconnect" href="https://www.googletagmanager.com" />}
+        {adsenseId && <link rel="preconnect" href="https://pagead2.googlesyndication.com" />}
         
         {/* Security Headers */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
