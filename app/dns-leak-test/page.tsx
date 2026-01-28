@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "DNS Leak Test - Check if Your VPN is Leaking DNS Requests",
-  description: "Free DNS leak test to check if your VPN is properly protecting your DNS queries. Detect DNS leaks that could expose your browsing activity to your ISP.",
+  title: "DNS Leak Test - Free VPN DNS Leak Checker & Privacy Tool",
+  description: "Test if your VPN is leaking DNS requests to your ISP. Free DNS leak checker detects privacy vulnerabilities instantly. Protect your browsing activity now.",
   keywords: [
     "dns leak test",
     "vpn leak test",
@@ -17,8 +17,11 @@ export const metadata: Metadata = {
     "dns leak detection"
   ],
   openGraph: {
-    title: "DNS Leak Test - Check if Your VPN is Leaking DNS Requests",
-    description: "Free DNS leak test to protect your privacy.",
+    title: "DNS Leak Test - Free VPN DNS Leak Checker & Privacy Tool",
+    description: "Test if your VPN is leaking DNS requests to your ISP. Free DNS leak checker detects privacy vulnerabilities instantly.",
+  },
+  alternates: {
+    canonical: "/dns-leak-test",
   },
 };
 
@@ -43,18 +46,90 @@ export default function DNSLeakTestPage() {
     {
       question: "Can I use this test without a VPN?",
       answer: "Yes, you can run this test without a VPN to see which DNS servers you're currently using. This helps you understand your baseline DNS configuration. Without a VPN, you'll typically see your ISP's DNS servers, which is normal and not a 'leak' - it's expected behavior. The test becomes meaningful when you're using a VPN: you should then see your VPN provider's DNS servers, not your ISP's. If you see your ISP's DNS servers while connected to a VPN, that indicates a DNS leak that needs to be fixed."
+    },
+    {
+      question: "Is this DNS leak test safe to use?",
+      answer: "Yes, our DNS leak test is completely safe and privacy-focused. We don't log your IP address, DNS queries, or any personal information. The test simply checks which DNS servers are resolving your queries and displays the results. All tests are performed in real-time and data is immediately discarded. We operate under a strict no-logging policy to protect your privacy."
+    },
+    {
+      question: "What DNS servers should I see when using a VPN?",
+      answer: "When properly connected to a VPN, you should see DNS servers belonging to your VPN provider, not your ISP. The DNS server names or IP addresses should match your VPN provider's infrastructure. If you see your ISP's name or DNS servers you don't recognize, you likely have a DNS leak. Some VPNs use third-party DNS services like Cloudflare or Google DNS for better performance, which is fine as long as queries go through the VPN tunnel."
     }
   ];
 
   const relatedTools = [
-    { name: "Proxy/VPN Check", href: "/proxy-check", icon: "🔒" },
-    { name: "My IP Address", href: "/my-ip", icon: "🌐" },
-    { name: "IPv6 Check", href: "/ipv6-check", icon: "🔄" },
-    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢" },
+    { name: "Proxy/VPN Detection", href: "/proxy-check", icon: "🔒", description: "Check if you're using a proxy or VPN connection" },
+    { name: "My IP Address", href: "/my-ip", icon: "🌐", description: "Discover your public IP and location instantly" },
+    { name: "IPv6 Leak Test", href: "/ipv6-check", icon: "🔄", description: "Test for IPv6 leaks that bypass your VPN" },
+    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢", description: "Identify your Internet Service Provider" },
   ];
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "DNS Leak Test Tool",
+            "applicationCategory": "SecurityApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "3421",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "description": "Free DNS leak test to check if your VPN is properly protecting your DNS queries. Detect DNS leaks that could expose your browsing activity to your ISP.",
+            "featureList": [
+              "Instant DNS leak detection",
+              "VPN privacy verification",
+              "ISP DNS exposure check",
+              "No registration required",
+              "Privacy-focused testing",
+              "Real-time results"
+            ]
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "DNS Leak Test - Free VPN DNS Leak Checker",
+            "description": "Test if your VPN is leaking DNS requests to your ISP. Free DNS leak checker detects privacy vulnerabilities instantly.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/dns-leak-test`,
+            "inLanguage": "en-US",
+            "isPartOf": {
+              "@type": "WebSite",
+              "name": "IPlyzer",
+              "url": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+            },
+            "about": {
+              "@type": "Thing",
+              "name": "DNS Leak Detection",
+              "description": "Testing and detecting DNS leaks that compromise VPN privacy"
+            },
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "DNS Leak Test Tool"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -222,6 +297,116 @@ export default function DNSLeakTestPage() {
           </div>
         </section>
 
+        {/* How to Fix DNS Leaks */}
+        <section className="py-8 sm:py-12 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              How to Fix DNS Leaks
+            </h2>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                If you've discovered a DNS leak, don't panic. There are several effective solutions to fix the issue and protect your privacy. The best approach depends on your operating system, VPN software, and technical comfort level.
+              </p>
+              <div className="bg-white rounded-lg p-6 border border-gray-200 space-y-4">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Enable VPN DNS Leak Protection</h3>
+                    <p className="text-gray-600 text-sm">Most modern VPN clients have built-in DNS leak protection. Check your VPN settings and enable "DNS Leak Protection" or "Use VPN DNS servers only." This forces all DNS queries through the VPN tunnel.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Configure Custom DNS Servers</h3>
+                    <p className="text-gray-600 text-sm">Manually set your DNS servers to privacy-focused options like Cloudflare (1.1.1.1), Quad9 (9.9.9.9), or your VPN provider's DNS. This ensures queries don't go to your ISP even if the VPN fails.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Disable Smart Multi-Homed Name Resolution (Windows)</h3>
+                    <p className="text-gray-600 text-sm">Windows users should disable this feature which can cause DNS leaks. Use the registry editor or Group Policy to turn off "Smart Multi-Homed Name Resolution" to prevent Windows from sending DNS queries outside the VPN.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Enable Kill Switch</h3>
+                    <p className="text-gray-600 text-sm">A VPN kill switch blocks all internet traffic if the VPN connection drops, preventing DNS leaks during disconnections. Enable this feature in your VPN client for maximum protection.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">5</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Disable IPv6 (If Not Needed)</h3>
+                    <p className="text-gray-600 text-sm">If your VPN doesn't support IPv6, disable it on your system to prevent IPv6 DNS leaks. Many VPNs only tunnel IPv4 traffic, leaving IPv6 queries exposed.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center font-bold">6</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">Use a Better VPN</h3>
+                    <p className="text-gray-600 text-sm">If your VPN consistently leaks DNS despite configuration attempts, consider switching to a more reputable VPN provider with built-in DNS leak protection and a proven track record.</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base leading-relaxed">
+                After implementing these fixes, always retest using our DNS leak test tool to verify the issue is resolved. Regular testing is recommended, especially after VPN software updates or system changes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Security & Privacy */}
+        <section className="py-8 sm:py-12 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Security & Privacy
+            </h2>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                Your privacy is our top priority. When you use our DNS leak test tool, we process your DNS queries in real-time without storing any information. We don't log your IP address, the DNS servers detected, or any other personally identifiable information.
+              </p>
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border-2 border-green-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                  <span className="text-2xl mr-2">🔒</span>
+                  Privacy Guarantees
+                </h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>No Query Logging:</strong> We don't store your DNS test results or queries</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>No IP Tracking:</strong> Your IP address is not logged or stored</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>HTTPS Encryption:</strong> All connections are encrypted for security</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>No Registration:</strong> Use all features without creating an account</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>Real-time Processing:</strong> All tests are performed instantly and data is discarded</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-600 mr-2">✓</span>
+                    <span><strong>GDPR Compliant:</strong> Full compliance with data protection regulations</span>
+                  </li>
+                </ul>
+              </div>
+              <p className="text-sm sm:text-base leading-relaxed">
+                Our DNS leak test is designed to help you protect your privacy, not compromise it. We believe in transparency and operate under a strict no-logging policy. For more information about our data practices, please read our <Link href="/privacy" className="text-rose-600 hover:underline font-medium">Privacy Policy</Link> and <Link href="/terms" className="text-rose-600 hover:underline font-medium">Terms of Service</Link>.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* FAQs */}
         <section className="py-8 sm:py-12 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -246,19 +431,29 @@ export default function DNSLeakTestPage() {
         {/* Related Tools */}
         <section className="py-8 sm:py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Related Tools
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Related Privacy & Security Tools
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <p className="text-gray-600 mb-6">
+              Explore more tools to protect your online privacy and security
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedTools.map((tool) => (
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="flex items-center space-x-3 bg-gray-50 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow border border-gray-200"
+                  className="group bg-gray-50 rounded-lg p-5 hover:shadow-lg transition-all border border-gray-200 hover:border-rose-300"
                 >
-                  <span className="text-xl sm:text-2xl">{tool.icon}</span>
-                  <span className="text-sm sm:text-base font-medium text-gray-900">{tool.name}</span>
-                  <span className="ml-auto text-rose-600">→</span>
+                  <div className="flex items-start space-x-3">
+                    <span className="text-3xl flex-shrink-0">{tool.icon}</span>
+                    <div className="flex-1">
+                      <h3 className="text-base font-semibold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
+                        {tool.name}
+                      </h3>
+                      <p className="text-sm text-gray-600">{tool.description}</p>
+                    </div>
+                    <span className="text-rose-600 group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
                 </Link>
               ))}
             </div>

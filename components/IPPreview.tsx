@@ -31,11 +31,16 @@ export default function IPPreview() {
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       
+      console.log('🔍 Fetching IP data from:', apiUrl);
+      
       // Fetch both my-ip and ipv6-check data
       const [myIpResponse, ipv6Response] = await Promise.all([
         fetch(`${apiUrl}/api/my-ip`),
         fetch(`${apiUrl}/api/ipv6-check`)
       ]);
+
+      console.log('📡 My IP Response:', myIpResponse.status);
+      console.log('📡 IPv6 Response:', ipv6Response.status);
 
       if (!myIpResponse.ok) {
         throw new Error("Failed to fetch IP data");
@@ -44,15 +49,22 @@ export default function IPPreview() {
       const myIpData = await myIpResponse.json();
       const ipv6Data = ipv6Response.ok ? await ipv6Response.json() : null;
       
+      console.log('✅ My IP Data:', myIpData);
+      console.log('✅ IPv6 Data:', ipv6Data);
+      
       // Merge data
-      setIpData({
+      const mergedData = {
         ...myIpData,
         ipv4_address: ipv6Data?.ipv4_address || "",
         ipv6_address: ipv6Data?.ipv6_address || ""
-      });
+      };
+      
+      console.log('🔗 Merged Data:', mergedData);
+      
+      setIpData(mergedData);
     } catch (err) {
       setError("Unable to fetch IP information");
-      console.error("Error fetching IP:", err);
+      console.error("❌ Error fetching IP:", err);
     } finally {
       setLoading(false);
     }
@@ -143,7 +155,7 @@ export default function IPPreview() {
           {/* Show both IPv4 and IPv6 if available */}
           {(ipData.ipv4_address || ipData.ipv6_address) && (
             <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row gap-2 justify-center items-stretch text-xs sm:text-sm">
-              {ipData.ipv4_address && (
+              {ipData.ipv4_address && ipData.ipv4_address.trim() !== "" && (
                 <div className="bg-blue-50 px-3 py-2 rounded-lg border border-blue-200 flex items-center justify-between gap-2 group hover:bg-blue-100 transition-colors">
                   <div className="flex-1">
                     <span className="text-gray-600 font-medium">IPv4:</span>{" "}
@@ -166,7 +178,7 @@ export default function IPPreview() {
                   </button>
                 </div>
               )}
-              {ipData.ipv6_address && (
+              {ipData.ipv6_address && ipData.ipv6_address.trim() !== "" && (
                 <div className="bg-indigo-50 px-3 py-2 rounded-lg border border-indigo-200 flex items-center justify-between gap-2 group hover:bg-indigo-100 transition-colors">
                   <div className="flex-1 min-w-0">
                     <span className="text-gray-600 font-medium">IPv6:</span>{" "}

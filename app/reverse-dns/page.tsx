@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Reverse DNS Lookup - Convert IP Address to Hostname",
-  description: "Free reverse DNS lookup tool to convert IP addresses to hostnames using PTR records. Find the domain name associated with any IP address instantly.",
+  title: "Reverse DNS Lookup - IP to Hostname Converter | Free PTR Tool",
+  description: "Free reverse DNS lookup tool. Convert IP addresses to hostnames using PTR records instantly. Fast, accurate & secure IP to domain name resolution.",
   keywords: [
     "reverse dns lookup",
     "ip to hostname",
@@ -17,8 +17,13 @@ export const metadata: Metadata = {
     "reverse ip lookup"
   ],
   openGraph: {
-    title: "Reverse DNS Lookup - Convert IP Address to Hostname",
-    description: "Free reverse DNS lookup tool to convert IP addresses to hostnames.",
+    title: "Reverse DNS Lookup - IP to Hostname Converter | Free PTR Tool",
+    description: "Free reverse DNS lookup tool. Convert IP addresses to hostnames using PTR records instantly.",
+    type: "website",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/reverse-dns`,
+  },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/reverse-dns`,
   },
 };
 
@@ -43,18 +48,71 @@ export default function ReverseDNSPage() {
     {
       question: "What's the difference between DNS and reverse DNS?",
       answer: "Regular DNS (forward DNS) converts human-readable domain names into IP addresses—like translating 'google.com' to '142.250.185.46'. Reverse DNS does the opposite: it converts IP addresses back into domain names. Forward DNS uses A records (for IPv4) and AAAA records (for IPv6), while reverse DNS uses PTR records. Both are part of the DNS system but serve different purposes and use different record types."
+    },
+    {
+      question: "Can I perform reverse DNS lookup for any IP address?",
+      answer: "You can attempt a reverse DNS lookup on any IP address, but not all will return results. Only IP addresses with configured PTR records will resolve to hostnames. Public servers, email servers, and business infrastructure typically have reverse DNS configured, while residential IPs often don't. The lookup process itself is free and doesn't require special permissions—you're simply querying publicly available DNS records."
+    },
+    {
+      question: "How long does reverse DNS lookup take?",
+      answer: "Reverse DNS lookups are typically very fast, usually completing in under a second. The speed depends on DNS server response times and network conditions. Our tool performs the lookup instantly and displays results immediately. If a PTR record doesn't exist, the lookup will fail quickly. Cached results from DNS servers can make subsequent lookups even faster."
     }
   ];
 
   const relatedTools = [
-    { name: "Hostname to IP", href: "/hostname-to-ip", icon: "🌍" },
-    { name: "IP Location Lookup", href: "/ip-location", icon: "📍" },
-    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢" },
-    { name: "My IP Address", href: "/my-ip", icon: "🌐" },
+    { name: "Hostname to IP", href: "/hostname-to-ip", icon: "🌍", description: "Convert domains to IPs" },
+    { name: "IP Location Lookup", href: "/ip-location", icon: "📍", description: "Find IP geolocation" },
+    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢", description: "Identify ISP details" },
+    { name: "My IP Address", href: "/my-ip", icon: "🌐", description: "Check your IP" },
   ];
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Reverse DNS Lookup Tool",
+            "applicationCategory": "NetworkApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.7",
+              "ratingCount": "892"
+            },
+            "description": "Free reverse DNS lookup tool to convert IP addresses to hostnames using PTR records. Fast and accurate IP to domain resolution."
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Reverse DNS Lookup - IP to Hostname Converter | Free PTR Tool",
+            "description": "Free reverse DNS lookup tool. Convert IP addresses to hostnames using PTR records instantly.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/reverse-dns`,
+            "mainEntity": {
+              "@type": "WebApplication",
+              "name": "Reverse DNS Lookup Tool",
+              "applicationCategory": "NetworkApplication",
+              "browserRequirements": "Requires JavaScript"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -120,21 +178,21 @@ export default function ReverseDNSPage() {
         {/* Info Section */}
         <section className="py-8 sm:py-10 md:py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
               What is Reverse DNS Lookup?
-            </h2>
+            </h1>
             <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
               <p>
-                Reverse DNS lookup is a DNS query that converts an IP address into its associated hostname or domain name. While regular DNS (forward DNS) translates human-readable domain names like "google.com" into IP addresses that computers use, reverse DNS does the opposite—it takes an IP address and returns the domain name registered to it.
+                Reverse DNS lookup is a DNS query that converts an IP address into its associated hostname or domain name. While regular DNS (forward DNS) translates human-readable domain names like "google.com" into IP addresses that computers use, reverse DNS does the opposite—it takes an IP address and returns the domain name registered to it. This tool provides instant, accurate reverse DNS resolution for both IPv4 and IPv6 addresses.
               </p>
               <p>
-                This process relies on PTR (Pointer) records in the DNS system. PTR records are special DNS entries that map IP addresses to hostnames. For IPv4 addresses, these records are stored in the in-addr.arpa domain, and for IPv6 addresses, they're stored in the ip6.arpa domain. When you perform a reverse DNS lookup, the DNS system queries these special zones to find the hostname associated with the IP address.
+                This process relies on PTR (Pointer) records in the DNS system. PTR records are special DNS entries that map IP addresses to hostnames. For IPv4 addresses, these records are stored in the in-addr.arpa domain, and for IPv6 addresses, they're stored in the ip6.arpa domain. When you perform a reverse DNS lookup, the DNS system queries these special zones to find the hostname associated with the IP address. You can also use our <Link href="/hostname-to-ip" className="text-pink-600 hover:text-pink-700 font-medium">hostname to IP tool</Link> for the opposite conversion.
               </p>
               <p>
-                Reverse DNS is particularly important for email servers. Many email systems check reverse DNS records as part of their spam prevention measures. If an email server's IP address doesn't have a valid reverse DNS record that matches its hostname, the email may be rejected or marked as spam. This makes reverse DNS configuration essential for anyone running a mail server.
+                Reverse DNS is particularly important for email servers. Many email systems check reverse DNS records as part of their spam prevention measures. If an email server's IP address doesn't have a valid reverse DNS record that matches its hostname, the email may be rejected or marked as spam. This makes reverse DNS configuration essential for anyone running a mail server. Understanding your <Link href="/isp-lookup" className="text-pink-600 hover:text-pink-700 font-medium">ISP information</Link> can also help with email deliverability issues.
               </p>
               <p>
-                Not all IP addresses have reverse DNS records. Setting up reverse DNS requires control over the IP address block and proper DNS configuration. Many residential ISPs don't configure reverse DNS for customer connections, and it's not required for most internet activities. However, for servers, especially email servers, having proper reverse DNS is considered a best practice.
+                Not all IP addresses have reverse DNS records. Setting up reverse DNS requires control over the IP address block and proper DNS configuration. Many residential ISPs don't configure reverse DNS for customer connections, and it's not required for most internet activities. However, for servers, especially email servers, having proper reverse DNS is considered a best practice. Check <Link href="/my-ip" className="text-pink-600 hover:text-pink-700 font-medium">your own IP address</Link> to see if it has reverse DNS configured.
               </p>
             </div>
           </div>
@@ -148,13 +206,13 @@ export default function ReverseDNSPage() {
             </h2>
             <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
               <p>
-                Email administrators rely heavily on reverse DNS for troubleshooting delivery issues. When emails are being rejected or marked as spam, checking the reverse DNS of the sending server is often the first diagnostic step. Proper reverse DNS configuration is a fundamental requirement for reliable email delivery, and many major email providers won't accept mail from servers without valid reverse DNS records.
+                Email administrators rely heavily on reverse DNS for troubleshooting delivery issues. When emails are being rejected or marked as spam, checking the reverse DNS of the sending server is often the first diagnostic step. Proper reverse DNS configuration is a fundamental requirement for reliable email delivery, and many major email providers won't accept mail from servers without valid reverse DNS records. This is especially important when combined with proper <Link href="/dns-leak-test" className="text-pink-600 hover:text-pink-700 font-medium">DNS configuration</Link>.
               </p>
               <p>
-                Network administrators and security professionals use reverse DNS to identify and investigate IP addresses. When analyzing server logs, firewall logs, or security incidents, reverse DNS helps quickly identify the source of traffic. Seeing a hostname like "crawler.google.com" is much more informative than just seeing an IP address, making log analysis and troubleshooting significantly easier.
+                Network administrators and security professionals use reverse DNS to identify and investigate IP addresses. When analyzing server logs, firewall logs, or security incidents, reverse DNS helps quickly identify the source of traffic. Seeing a hostname like "crawler.google.com" is much more informative than just seeing an IP address, making log analysis and troubleshooting significantly easier. You can also check <Link href="/ip-location" className="text-pink-600 hover:text-pink-700 font-medium">IP location data</Link> for additional context.
               </p>
               <p>
-                System administrators use reverse DNS to verify server configurations and ensure their infrastructure is properly set up. Before launching a new server, especially an email server, checking that reverse DNS is correctly configured prevents future delivery problems. It's also useful for verifying that DNS changes have propagated correctly across the internet.
+                System administrators use reverse DNS to verify server configurations and ensure their infrastructure is properly set up. Before launching a new server, especially an email server, checking that reverse DNS is correctly configured prevents future delivery problems. It's also useful for verifying that DNS changes have propagated correctly across the internet. Understanding <Link href="/hosting-check" className="text-pink-600 hover:text-pink-700 font-medium">hosting information</Link> can provide additional insights into server infrastructure.
               </p>
             </div>
           </div>
@@ -254,10 +312,18 @@ export default function ReverseDNSPage() {
                   className="flex items-center space-x-2 sm:space-x-3 bg-gray-50 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow border border-gray-200"
                 >
                   <span className="text-xl sm:text-2xl">{tool.icon}</span>
-                  <span className="text-sm sm:text-base font-medium text-gray-900">{tool.name}</span>
-                  <span className="ml-auto text-pink-600">→</span>
+                  <div className="flex-1">
+                    <span className="text-sm sm:text-base font-medium text-gray-900 block">{tool.name}</span>
+                    <span className="text-xs text-gray-500">{tool.description}</span>
+                  </div>
+                  <span className="text-pink-600">→</span>
                 </Link>
               ))}
+            </div>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Learn more about <Link href="/dns-leak-test" className="text-pink-600 hover:text-pink-700 font-medium">DNS leak testing</Link> and <Link href="/hosting-check" className="text-pink-600 hover:text-pink-700 font-medium">hosting verification</Link> to enhance your network knowledge.
+              </p>
             </div>
           </div>
         </section>

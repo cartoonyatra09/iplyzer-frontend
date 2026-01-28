@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Internet Speed Test - Check Your Download & Upload Speed",
-  description: "Free internet speed test to measure your download speed, upload speed, ping, and jitter. Test your connection quality instantly with accurate results.",
+  title: "Speed Test - Check Internet Download & Upload Speed",
+  description: "Free internet speed test. Measure download, upload, ping & jitter instantly. Accurate results powered by Cloudflare. Test your connection now.",
   keywords: [
     "speed test",
     "internet speed test",
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     "network speed test"
   ],
   openGraph: {
-    title: "Internet Speed Test - Check Your Download & Upload Speed",
-    description: "Free internet speed test with accurate results.",
+    title: "Speed Test - Check Internet Download & Upload Speed",
+    description: "Free internet speed test. Measure download, upload, ping & jitter instantly. Accurate results powered by Cloudflare. Test your connection now.",
   },
 };
 
@@ -43,6 +43,14 @@ export default function SpeedTestPage() {
     {
       question: "What is ping and why does it matter?",
       answer: "Ping (or latency) is the time it takes for data to travel from your device to a server and back, measured in milliseconds (ms). Lower ping is better. For general browsing, ping under 100ms is fine. For video calls, under 50ms is good. For online gaming, under 20ms is ideal. High ping causes lag in games and delays in video calls. Jitter (variation in ping) is also important - consistent ping is better than fluctuating ping, even if the average is low. High jitter causes choppy video and audio."
+    },
+    {
+      question: "How accurate are internet speed tests?",
+      answer: "Speed test accuracy depends on several factors. Our test uses Cloudflare's global network for reliable results, but accuracy can be affected by: other devices using your network during the test, background applications consuming bandwidth, WiFi interference (wired connections give more accurate results), server location and distance, and time of day (network congestion). For best accuracy, close other applications, test multiple times at different hours, use a wired connection if possible, and test from different devices to compare results."
+    },
+    {
+      question: "Should I use WiFi or ethernet for speed testing?",
+      answer: "For the most accurate speed test, use an ethernet (wired) connection directly to your router or modem. WiFi speeds are affected by distance from the router, walls and obstacles, interference from other devices, the WiFi standard your device supports (WiFi 5, WiFi 6), and the number of connected devices. Wired connections eliminate these variables and show your true internet speed. If you must use WiFi, test close to the router for best results. Comparing wired vs WiFi speeds helps identify if your router needs upgrading."
     }
   ];
 
@@ -55,6 +63,53 @@ export default function SpeedTestPage() {
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Internet Speed Test Tool",
+            "applicationCategory": "UtilityApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "Free internet speed test tool to measure download speed, upload speed, ping, and jitter. Powered by Cloudflare's global network for accurate results.",
+            "featureList": [
+              "Download speed measurement",
+              "Upload speed measurement",
+              "Ping/latency testing",
+              "Jitter measurement",
+              "Powered by Cloudflare",
+              "Instant results",
+              "No registration required"
+            ]
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Speed Test - Check Internet Download & Upload Speed",
+            "description": "Free internet speed test. Measure download, upload, ping & jitter instantly. Accurate results powered by Cloudflare. Test your connection now.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/speed-test`,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "Internet Speed Test Tool"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -135,6 +190,27 @@ export default function SpeedTestPage() {
               </p>
               <p className="text-sm sm:text-base leading-relaxed">
                 Ping (latency) measures the round-trip time for data to travel from your device to a server and back, expressed in milliseconds (ms). Lower ping is better, especially for real-time applications like gaming, video calls, and VoIP. Jitter measures the variation in ping over time - consistent ping is important for smooth video and audio quality.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              How Does This Speed Test Work?
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                Our speed test is powered by Cloudflare's global network, which operates in over 300 cities worldwide. When you start the test, your device connects to the nearest Cloudflare server to minimize latency and provide accurate results. The test begins by measuring ping - sending small packets of data and measuring how long they take to return.
+              </p>
+              <p className="text-sm sm:text-base leading-relaxed">
+                Next, the download test transfers data from the Cloudflare server to your device, gradually increasing the data size to saturate your connection and measure maximum throughput. The upload test works in reverse, sending data from your device to the server. Throughout the test, jitter is calculated by measuring variations in ping times. The entire process typically takes 20-30 seconds and provides comprehensive insights into your connection quality.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              Understanding Your Results
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                Download speeds of 25+ Mbps are suitable for HD streaming, 50+ Mbps for multiple users or 4K streaming, and 100+ Mbps for heavy usage. Upload speeds of 3-5 Mbps work for video calls, 10+ Mbps for content creators, and 25+ Mbps for professional streaming. Ping under 50ms is good for most uses, under 20ms is excellent for gaming. Jitter should be under 30ms for stable connections. If your results are consistently below what you're paying for, contact your <Link href="/isp-lookup" className="text-lime-600 hover:text-lime-700 underline">ISP</Link> for support.
               </p>
             </div>
           </div>

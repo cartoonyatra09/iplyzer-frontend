@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Hosting & Datacenter Check - Detect Cloud Providers and Server IPs",
-  description: "Free tool to check if an IP address belongs to a datacenter, cloud provider, or hosting service. Useful for fraud detection, traffic analysis, and server verification.",
+  title: "Hosting Check - Detect Datacenter & Cloud Provider IPs",
+  description: "Check if an IP belongs to a datacenter or cloud provider (AWS, Azure, GCP). Free hosting detection tool for fraud prevention & bot detection.",
   keywords: [
     "hosting check",
     "datacenter detection",
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     "fraud detection"
   ],
   openGraph: {
-    title: "Hosting & Datacenter Check - Detect Cloud Providers and Server IPs",
-    description: "Free tool to detect datacenter and cloud provider IPs.",
+    title: "Hosting Check - Detect Datacenter & Cloud Provider IPs",
+    description: "Check if an IP belongs to a datacenter or cloud provider (AWS, Azure, GCP). Free hosting detection tool for fraud prevention & bot detection.",
   },
 };
 
@@ -43,6 +43,14 @@ export default function HostingCheckPage() {
     {
       question: "How accurate is datacenter and cloud provider detection?",
       answer: "Detection accuracy is typically 90-95% for major cloud providers and well-known datacenters. We use authoritative data from Regional Internet Registries (RIRs), hosting provider databases, and network analysis. However, accuracy can vary for smaller hosting providers or newly allocated IP ranges. Some edge cases, like enterprise networks with their own datacenters, might not be detected. Results should be used as strong indicators rather than absolute certainty."
+    },
+    {
+      question: "Can this tool detect all VPN and proxy services?",
+      answer: "While many VPN and proxy services operate from datacenter IPs and will be detected, not all are identifiable through hosting detection alone. Commercial VPN providers typically use datacenter infrastructure, which this tool will flag. However, for comprehensive VPN/proxy detection, we recommend using our dedicated Proxy Check tool, which combines multiple detection methods including datacenter analysis, known VPN IP databases, and behavioral patterns."
+    },
+    {
+      question: "What's the difference between hosting check and ISP lookup?",
+      answer: "Hosting check specifically identifies whether an IP belongs to datacenter or cloud infrastructure, while ISP lookup identifies the Internet Service Provider for any IP address. An ISP lookup might return 'Amazon' for an AWS server, but hosting check goes further to confirm it's datacenter infrastructure and identify the specific cloud service. Use hosting check when you need to distinguish server traffic from user traffic, and ISP lookup when you want to know the network provider regardless of type."
     }
   ];
 
@@ -55,6 +63,52 @@ export default function HostingCheckPage() {
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Hosting & Datacenter Check Tool",
+            "applicationCategory": "NetworkApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "Free tool to detect if an IP address belongs to a datacenter, cloud provider, or hosting service. Identifies AWS, Azure, GCP, and other hosting providers.",
+            "featureList": [
+              "Datacenter IP detection",
+              "Cloud provider identification",
+              "Hosting service detection",
+              "AWS, Azure, GCP detection",
+              "Fraud prevention support",
+              "Bot detection capability"
+            ]
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Hosting Check - Detect Datacenter & Cloud Provider IPs",
+            "description": "Check if an IP belongs to a datacenter or cloud provider (AWS, Azure, GCP). Free hosting detection tool for fraud prevention & bot detection.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/hosting-check`,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "Hosting & Datacenter Check Tool"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -102,7 +156,7 @@ export default function HostingCheckPage() {
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <HeroSection
-          title="Hosting & Datacenter Check"
+          title="Hosting & Datacenter IP Check"
           description="Detect if an IP belongs to a datacenter, cloud provider, or hosting service"
           breadcrumb="Hosting Check"
           gradientFrom="from-cyan-600"
@@ -135,6 +189,27 @@ export default function HostingCheckPage() {
               </p>
               <p className="text-sm sm:text-base leading-relaxed">
                 Modern cloud infrastructure has made datacenter detection more important than ever. With millions of services running on platforms like AWS, Azure, and Google Cloud, identifying these connections helps organizations understand their traffic composition, detect automated activity, prevent fraud, and optimize content delivery based on the source type.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              How Does This Tool Work?
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                Our hosting check tool uses multiple detection methods to accurately identify datacenter and cloud provider IPs. First, it queries authoritative IP allocation databases maintained by Regional Internet Registries (ARIN, RIPE, APNIC) to determine the organization that owns the IP range. This reveals if the IP belongs to known hosting providers like AWS, Azure, or DigitalOcean.
+              </p>
+              <p className="text-sm sm:text-base leading-relaxed">
+                The tool also performs reverse DNS lookups to examine hostname patterns. Cloud providers typically use distinctive naming conventions (like ec2.amazonaws.com for AWS or cloudapp.azure.com for Azure) that clearly identify their infrastructure. Combined with ASN (Autonomous System Number) analysis, this provides reliable datacenter detection even for lesser-known hosting providers.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              Security & Privacy
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                This tool is completely safe to use and respects your privacy. We only analyze publicly available information about IP addresses—no personal data is collected or stored. The lookup process uses standard network protocols (DNS, WHOIS) that are used billions of times daily across the internet. Your IP address is not logged, and we don't track your searches. Learn more about our <Link href="/privacy" className="text-cyan-600 hover:text-cyan-700 underline">privacy policy</Link>.
               </p>
             </div>
           </div>

@@ -37,11 +37,16 @@ export default function MyIPTool() {
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       
+      console.log('🔍 [MyIPTool] Fetching IP data from:', apiUrl);
+      
       // Fetch both my-ip and ipv6-check data
       const [myIpResponse, ipv6Response] = await Promise.all([
         fetch(`${apiUrl}/api/my-ip`),
         fetch(`${apiUrl}/api/ipv6-check`)
       ]);
+
+      console.log('📡 [MyIPTool] My IP Response:', myIpResponse.status);
+      console.log('📡 [MyIPTool] IPv6 Response:', ipv6Response.status);
 
       if (!myIpResponse.ok) {
         throw new Error("Failed to fetch IP data");
@@ -50,15 +55,22 @@ export default function MyIPTool() {
       const myIpData = await myIpResponse.json();
       const ipv6Data = ipv6Response.ok ? await ipv6Response.json() : null;
       
+      console.log('✅ [MyIPTool] My IP Data:', myIpData);
+      console.log('✅ [MyIPTool] IPv6 Data:', ipv6Data);
+      
       // Merge data
-      setIpData({
+      const mergedData = {
         ...myIpData,
         ipv4_address: ipv6Data?.ipv4_address || "",
         ipv6_address: ipv6Data?.ipv6_address || ""
-      });
+      };
+      
+      console.log('🔗 [MyIPTool] Merged Data:', mergedData);
+      
+      setIpData(mergedData);
     } catch (err) {
       setError("Unable to fetch IP information. Please try again.");
-      console.error("Error fetching IP:", err);
+      console.error("❌ [MyIPTool] Error fetching IP:", err);
     } finally {
       setLoading(false);
     }
@@ -171,7 +183,7 @@ export default function MyIPTool() {
           {/* Show both IPv4 and IPv6 if available */}
           {(ipData.ipv4_address || ipData.ipv6_address) && (
             <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center">
-              {ipData.ipv4_address && (
+              {ipData.ipv4_address && ipData.ipv4_address.trim() !== "" && (
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-3 rounded-xl border-2 border-blue-200 flex-1 sm:flex-initial group hover:shadow-md transition-all">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -196,7 +208,7 @@ export default function MyIPTool() {
                   </div>
                 </div>
               )}
-              {ipData.ipv6_address && (
+              {ipData.ipv6_address && ipData.ipv6_address.trim() !== "" && (
                 <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 px-4 py-3 rounded-xl border-2 border-indigo-200 flex-1 sm:flex-initial group hover:shadow-md transition-all">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">

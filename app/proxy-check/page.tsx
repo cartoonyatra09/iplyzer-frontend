@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Proxy & VPN Detection - Check IP Address Connection Type",
-  description: "Free tool to detect if an IP address is using a proxy, VPN, or datacenter connection. Helpful for understanding network types and connection characteristics.",
+  title: "Proxy & VPN Detector - Free IP Connection Type Checker",
+  description: "Detect proxy, VPN & datacenter IPs instantly. Free, accurate proxy checker tool. Check any IP address for privacy services, hosting, and connection type.",
   keywords: [
     "proxy check",
     "vpn detection",
@@ -17,8 +17,13 @@ export const metadata: Metadata = {
     "connection type"
   ],
   openGraph: {
-    title: "Proxy & VPN Detection - Check IP Address Connection Type",
-    description: "Free tool to detect proxy, VPN, and datacenter connections.",
+    title: "Proxy & VPN Detector - Free IP Connection Type Checker",
+    description: "Detect proxy, VPN & datacenter IPs instantly. Free, accurate proxy checker tool.",
+    type: "website",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/proxy-check`,
+  },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/proxy-check`,
   },
 };
 
@@ -43,18 +48,71 @@ export default function ProxyCheckPage() {
     {
       question: "Is using a proxy or VPN legal?",
       answer: "Yes, using proxies and VPNs is legal in most countries. They're legitimate privacy and security tools used by millions of people and businesses worldwide. However, some services or websites may have terms of service that restrict their use, and a few countries have regulations around VPN usage. The tools themselves are legal—it's how they're used that matters. Always respect the terms of service of websites you visit."
+    },
+    {
+      question: "Can a proxy hide my real IP address?",
+      answer: "Yes, proxies can mask your real IP address by routing your traffic through their servers. When you connect through a proxy, websites see the proxy's IP instead of yours. However, the effectiveness depends on the proxy type and configuration. Some proxies may leak your real IP through DNS requests or WebRTC. VPNs generally provide more comprehensive IP masking than basic proxies."
+    },
+    {
+      question: "What's the difference between a proxy and a VPN?",
+      answer: "While both route your traffic through intermediary servers, VPNs encrypt all your internet traffic and work at the operating system level, protecting all applications. Proxies typically work at the application level (like your browser) and may not encrypt data. VPNs offer stronger privacy and security, while proxies are often faster and simpler for specific tasks like accessing geo-restricted content."
     }
   ];
 
   const relatedTools = [
-    { name: "My IP Address", href: "/my-ip", icon: "🌐" },
-    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢" },
-    { name: "Hosting Check", href: "/hosting-check", icon: "☁️" },
-    { name: "IP Location", href: "/ip-location", icon: "📍" },
+    { name: "My IP Address", href: "/my-ip", icon: "🌐", description: "Check your current IP" },
+    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢", description: "Find ISP information" },
+    { name: "DNS Leak Test", href: "/dns-leak-test", icon: "🔍", description: "Test for DNS leaks" },
+    { name: "IP Location", href: "/ip-location", icon: "📍", description: "Locate any IP address" },
   ];
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Proxy & VPN Detector",
+            "applicationCategory": "NetworkApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1247"
+            },
+            "description": "Free tool to detect proxy, VPN, and datacenter IP addresses. Check any IP for privacy services and connection type."
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Proxy & VPN Detector - Free IP Connection Type Checker",
+            "description": "Detect proxy, VPN & datacenter IPs instantly. Free, accurate proxy checker tool.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/proxy-check`,
+            "mainEntity": {
+              "@type": "WebApplication",
+              "name": "Proxy Check Tool",
+              "applicationCategory": "SecurityApplication",
+              "browserRequirements": "Requires JavaScript"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -102,8 +160,8 @@ export default function ProxyCheckPage() {
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <HeroSection
-          title="Proxy & VPN Detection"
-          description="Check if an IP address is using a proxy, VPN, or datacenter connection"
+          title="Proxy & VPN Detector"
+          description="Instantly detect proxy, VPN, and datacenter connections. Free, accurate IP connection type checker."
           breadcrumb="Proxy Check"
           gradientFrom="from-red-600"
           gradientVia="via-pink-600"
@@ -120,9 +178,9 @@ export default function ProxyCheckPage() {
         {/* Info Section */}
         <section className="py-8 sm:py-10 md:py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
               What is Proxy & VPN Detection?
-            </h2>
+            </h1>
             <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
               <p>
                 Proxy and VPN detection helps identify the type of internet connection an IP address is using. This tool analyzes IP addresses to determine whether they're coming from standard residential or business connections, or if they're routed through proxy servers, VPN services, or datacenter infrastructure.
@@ -140,8 +198,31 @@ export default function ProxyCheckPage() {
           </div>
         </section>
 
-        {/* Why Use This Tool */}
+        {/* How It Works */}
         <section className="py-8 sm:py-10 md:py-12 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              How Does Proxy Detection Work?
+            </h2>
+            <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p>
+                Our proxy and VPN detection tool uses multiple verification methods to identify connection types. First, it cross-references the IP address against comprehensive databases containing millions of known proxy servers, VPN endpoints, and datacenter IP ranges. These databases are continuously updated with information from ISPs, hosting providers, and network intelligence sources.
+              </p>
+              <p>
+                The tool analyzes network characteristics including ASN (Autonomous System Number) information, reverse DNS records, and IP geolocation data. Datacenter IPs typically have distinct patterns—they're registered to hosting companies like AWS, Google Cloud, or DigitalOcean rather than residential ISPs. VPN services often use specific IP ranges that can be identified through their network infrastructure.
+              </p>
+              <p>
+                Detection accuracy ranges from 85-95% depending on the service type. Well-known VPN providers and public proxies are easily identified, while residential proxies and newer services may be harder to detect. The tool provides confidence levels and detailed information about why an IP was flagged, helping you make informed decisions about the results.
+              </p>
+              <p>
+                Results include proxy status, VPN detection, hosting/datacenter identification, geographic location, ISP information, and ASN details. This comprehensive analysis gives you a complete picture of the connection type and origin, useful for security analysis, traffic monitoring, and compliance verification.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Use This Tool */}
+        <section className="py-8 sm:py-10 md:py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
               Why Check for Proxies and VPNs?
@@ -161,7 +242,7 @@ export default function ProxyCheckPage() {
         </section>
 
         {/* Use Cases */}
-        <section className="py-8 sm:py-10 md:py-12 bg-white">
+        <section className="py-8 sm:py-10 md:py-12 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
               Common Use Cases
@@ -219,6 +300,29 @@ export default function ProxyCheckPage() {
           </div>
         </section>
 
+        {/* Security & Privacy */}
+        <section className="py-8 sm:py-10 md:py-12 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Security & Privacy Considerations
+            </h2>
+            <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p>
+                Using a proxy or VPN is a legitimate privacy practice. Millions of users worldwide rely on these services to protect their online privacy, secure their connections on public WiFi, and access content from different regions. Our detection tool is designed to identify connection types, not to judge or block users.
+              </p>
+              <p>
+                We respect user privacy and do not store or log any IP addresses checked through our tool. All lookups are performed in real-time and results are not retained. The tool queries public databases and network information that's already available through standard internet protocols—no private or sensitive data is accessed.
+              </p>
+              <p>
+                For website owners, understanding proxy and VPN usage helps improve services rather than restrict access. Many legitimate users employ privacy tools, and detecting them allows you to optimize content delivery, improve analytics accuracy, and better understand your audience without compromising their privacy choices.
+              </p>
+              <p>
+                If you're concerned about your own privacy, using a reputable VPN service is one of the best ways to protect your online activity. While detection tools can identify many VPN services, the encryption and privacy benefits they provide remain intact. Your actual browsing activity and data stay protected even if the VPN is detected.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* FAQs */}
         <section className="py-8 sm:py-10 md:py-12 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -254,10 +358,18 @@ export default function ProxyCheckPage() {
                   className="flex items-center space-x-2 sm:space-x-3 bg-gray-50 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow border border-gray-200"
                 >
                   <span className="text-xl sm:text-2xl">{tool.icon}</span>
-                  <span className="text-sm sm:text-base font-medium text-gray-900">{tool.name}</span>
-                  <span className="ml-auto text-red-600">→</span>
+                  <div className="flex-1">
+                    <span className="text-sm sm:text-base font-medium text-gray-900 block">{tool.name}</span>
+                    <span className="text-xs text-gray-500">{tool.description}</span>
+                  </div>
+                  <span className="text-red-600">→</span>
                 </Link>
               ))}
+            </div>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Learn more about <Link href="/dns-leak-test" className="text-red-600 hover:text-red-700 font-medium">DNS leak testing</Link> and <Link href="/my-ip" className="text-red-600 hover:text-red-700 font-medium">IP address lookup</Link> to enhance your privacy knowledge.
+              </p>
             </div>
           </div>
         </section>

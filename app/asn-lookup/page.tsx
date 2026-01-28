@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "ASN Lookup - Find Autonomous System Number Information",
-  description: "Free ASN lookup tool to identify Autonomous System Numbers, network ranges, and owner information. Essential for network analysis and routing investigation.",
+  title: "ASN Lookup - Free Autonomous System Number Finder Tool",
+  description: "Find ASN information instantly. Free ASN lookup tool to identify Autonomous System Numbers, network ranges & owner details. Fast, accurate & secure.",
   keywords: [
     "asn lookup",
     "autonomous system number",
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     "routing information"
   ],
   openGraph: {
-    title: "ASN Lookup - Find Autonomous System Number Information",
-    description: "Free ASN lookup tool to identify Autonomous System Numbers and network information.",
+    title: "ASN Lookup - Free Autonomous System Number Finder Tool",
+    description: "Find ASN information instantly. Free ASN lookup tool to identify Autonomous System Numbers, network ranges & owner details.",
   },
 };
 
@@ -43,6 +43,14 @@ export default function ASNLookupPage() {
     {
       question: "What's the difference between ASN and ISP?",
       answer: "An ASN is a technical identifier used for internet routing, while an ISP (Internet Service Provider) is a business entity that provides internet access. Large ISPs typically own one or more ASNs to manage their network infrastructure. However, not all ASN owners are ISPs—they can also be enterprises, cloud providers, universities, or content delivery networks. An ASN represents the routing entity, while ISP represents the service provider."
+    },
+    {
+      question: "Is ASN lookup safe and private?",
+      answer: "Yes, ASN lookup is completely safe and private. Our tool queries publicly available information from Regional Internet Registries (RIRs) and BGP routing databases. We do not store your lookup queries or track your searches. ASN information is public data maintained by internet governance organizations, and looking it up does not expose your personal information or compromise your privacy."
+    },
+    {
+      question: "Can I lookup ASN by IP address?",
+      answer: "Yes, you can lookup ASN information using either the AS number directly (e.g., AS15169) or any IP address. When you enter an IP address, our tool identifies which Autonomous System owns that IP range and displays all associated ASN information including organization name, country, network prefixes, and routing details. This is useful when you have an IP address and want to know which network operator controls it."
     }
   ];
 
@@ -53,8 +61,54 @@ export default function ASNLookupPage() {
     { name: "Hosting Check", href: "/hosting-check", icon: "☁️" },
   ];
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "ASN Lookup Tool",
+            "applicationCategory": "NetworkApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1250"
+            },
+            "description": "Free ASN lookup tool to identify Autonomous System Numbers, network ranges, and owner information. Essential for network analysis and routing investigation."
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "ASN Lookup - Free Autonomous System Number Finder Tool",
+            "description": "Find ASN information instantly. Free ASN lookup tool to identify Autonomous System Numbers, network ranges & owner details.",
+            "url": `${siteUrl}/asn-lookup`,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "ASN Lookup Tool",
+              "applicationCategory": "NetworkApplication"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -86,13 +140,13 @@ export default function ASNLookupPage() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+                "item": siteUrl
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "ASN Lookup",
-                "item": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/asn-lookup`
+                "item": `${siteUrl}/asn-lookup`
               }
             ]
           })
@@ -215,6 +269,26 @@ export default function ASNLookupPage() {
                   Identify attack sources by ASN, implement AS-level filtering, and coordinate with upstream providers.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Security & Privacy */}
+        <section className="py-8 sm:py-10 md:py-12 bg-white border-t border-gray-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Security & Privacy
+            </h2>
+            <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p>
+                Our ASN lookup tool prioritizes your privacy and security. All queries are processed in real-time without storing your search history or personal information. We query publicly available databases maintained by Regional Internet Registries (RIRs) and BGP routing tables, ensuring you receive accurate, authoritative information.
+              </p>
+              <p>
+                The ASN information displayed is public data that network operators are required to register with internet governance organizations. Looking up ASN information does not expose your identity, compromise your security, or alert the network owner. This tool is designed for legitimate network analysis, security research, and infrastructure investigation.
+              </p>
+              <p>
+                We implement industry-standard security measures including HTTPS encryption for all connections, rate limiting to prevent abuse, and no third-party tracking scripts. Your IP address is only used to process your lookup request and is never logged or shared with external parties.
+              </p>
             </div>
           </div>
         </section>

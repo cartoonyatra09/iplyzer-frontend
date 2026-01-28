@@ -4,8 +4,8 @@ import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Email Header Analyzer - Trace Email Sender Location & IP",
-  description: "Free email header analyzer to trace sender location and IP addresses. Analyze email headers securely with no storage. GDPR compliant and privacy-focused.",
+  title: "Email Trace - Analyze Headers & Find Sender IP Location",
+  description: "Free email header analyzer to trace sender IP & location. Detect phishing, investigate spam. No storage, GDPR compliant. Instant results.",
   keywords: [
     "email trace",
     "email header analyzer",
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     "email forensics"
   ],
   openGraph: {
-    title: "Email Header Analyzer - Trace Email Sender Location & IP",
-    description: "Free email header analyzer with strong privacy protection.",
+    title: "Email Trace - Analyze Headers & Find Sender IP Location",
+    description: "Free email header analyzer to trace sender IP & location. Detect phishing, investigate spam. No storage, GDPR compliant. Instant results.",
   },
 };
 
@@ -43,6 +43,14 @@ export default function EmailTracePage() {
     {
       question: "Why would I need to trace an email?",
       answer: "Email tracing is useful for several purposes: verifying if an email is legitimate or a phishing attempt, investigating spam or threatening emails, troubleshooting email delivery problems, confirming the actual sender of an email (not just the 'From' address which can be spoofed), gathering evidence for reporting abuse or fraud, and understanding why emails are being marked as spam. It's a valuable tool for both personal security and professional email administration."
+    },
+    {
+      question: "Can email headers be faked or manipulated?",
+      answer: "While the 'From' address and some header fields can be easily spoofed, the 'Received:' headers added by mail servers are very difficult to fake. Each legitimate mail server in the delivery chain adds its own 'Received:' header with timestamp and IP address. These headers are added by the infrastructure, not the sender, making them reliable for tracing. However, the very first 'Received:' header (closest to the sender) is the most trustworthy for identifying origin."
+    },
+    {
+      question: "What's the difference between email trace and IP lookup?",
+      answer: "Email trace specifically analyzes email headers to extract and locate IP addresses of mail servers involved in email delivery, while IP lookup tools work with any IP address you provide. Email trace is specialized for understanding email routing and authentication, extracting multiple IPs from the email's path, and identifying phishing attempts. For general IP address investigation, use our dedicated IP Location tool."
     }
   ];
 
@@ -55,6 +63,53 @@ export default function EmailTracePage() {
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Email Header Analyzer Tool",
+            "applicationCategory": "SecurityApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "Free email header analyzer to trace sender IP addresses and location. Detect phishing, investigate spam, and analyze email origins with complete privacy protection.",
+            "featureList": [
+              "Email header parsing",
+              "IP address extraction",
+              "Sender location tracking",
+              "Phishing detection support",
+              "Spam investigation",
+              "No data storage - GDPR compliant",
+              "Real-time analysis"
+            ]
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Email Trace - Analyze Headers & Find Sender IP Location",
+            "description": "Free email header analyzer to trace sender IP & location. Detect phishing, investigate spam. No storage, GDPR compliant. Instant results.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/email-trace`,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "Email Header Analyzer Tool"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -135,6 +190,30 @@ export default function EmailTracePage() {
               </p>
               <p className="text-sm sm:text-base leading-relaxed">
                 Our email header analyzer extracts IP addresses from these headers and provides geographic location information for each server in the email's path. This helps you understand where an email really came from, which is especially useful since the "From" address can be easily spoofed. The actual IP addresses in the headers are much harder to fake and provide reliable information about the email's true origin.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              How Does Email Header Analysis Work?
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                When you send an email, it doesn't go directly to the recipient. Instead, it travels through multiple mail servers, and each server adds a "Received:" header line documenting its handling of the message. Our tool parses these headers to extract the IP addresses of each server in the chain, then performs geolocation lookups to identify where each server is located.
+              </p>
+              <p className="text-sm sm:text-base leading-relaxed">
+                The analysis starts by identifying all "Received:" lines in the email header. These lines are read from bottom to top (oldest to newest) to trace the email's path. For each server, we extract the IP address, perform a reverse DNS lookup to get the hostname, identify the ISP or hosting provider, and determine the geographic location (country, city, coordinates). This creates a complete map of the email's journey.
+              </p>
+              <p className="text-sm sm:text-base leading-relaxed">
+                The tool also examines authentication headers like SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), and DMARC (Domain-based Message Authentication) to verify if the email passed security checks. Failed authentication is a strong indicator of spoofing or phishing attempts. Combined with IP location data, this provides a comprehensive picture of the email's legitimacy.
+              </p>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 sm:mt-8 mb-3 sm:mb-4">
+              Security & Privacy
+            </h3>
+            <div className="prose prose-sm sm:prose-lg max-w-none text-gray-600 space-y-3 sm:space-y-4">
+              <p className="text-sm sm:text-base leading-relaxed">
+                Your privacy is our top priority. Email headers are processed in real-time and never stored on our servers. We don't log the data you submit, maintain any records of your analysis, or track your usage. The tool is fully GDPR compliant and designed for maximum privacy protection. You can safely analyze sensitive email headers knowing your data remains completely private. Learn more about our <Link href="/privacy" className="text-teal-600 hover:text-teal-700 underline">privacy policy</Link>.
               </p>
             </div>
           </div>

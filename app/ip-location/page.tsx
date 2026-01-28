@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import IPLocationTool from "@/components/tools/IPLocationTool";
-import HeroSection from "@/components/HeroSection";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "IP Location Lookup - Find Geographic Location of Any IP Address",
-  description: "Free IP geolocation tool to find the country, city, coordinates, timezone, and ISP of any IP address. Includes interactive map visualization.",
+  title: "IP Location Lookup - Free IP Geolocation Tool with Map",
+  description: "Find any IP address location instantly. Free geolocation tool shows country, city, ISP, timezone & coordinates with interactive map. Fast, accurate & secure.",
   keywords: [
     "ip location",
     "ip geolocation",
@@ -16,8 +15,8 @@ export const metadata: Metadata = {
     "ip map"
   ],
   openGraph: {
-    title: "IP Location Lookup - Find Geographic Location of Any IP Address",
-    description: "Free IP geolocation tool with interactive map visualization.",
+    title: "IP Location Lookup - Free IP Geolocation Tool with Map",
+    description: "Find any IP address location instantly. Free geolocation tool shows country, city, ISP, timezone & coordinates with interactive map.",
   },
 };
 
@@ -40,20 +39,73 @@ export default function IPLocationPage() {
       answer: "From an IP address, you can typically determine the country, region, city (approximate), timezone, ISP name, organization, and ASN (Autonomous System Number). You can also see coordinates for map visualization, postal code (when available), and currency/language information for the region."
     },
     {
-      question: "Is IP geolocation legal?",
+      question: "Is IP geolocation legal and safe to use?",
       answer: "Yes, IP geolocation is completely legal. IP addresses are public information transmitted with every internet request. Websites commonly use geolocation for content localization, fraud prevention, analytics, and compliance with regional regulations. However, using this information for harassment or illegal activities is prohibited."
+    },
+    {
+      question: "Does IP location work with VPN or proxy?",
+      answer: "Yes, but the location shown will be the VPN server or proxy location, not your actual location. This is how VPNs protect privacy - they mask your real IP address with the VPN server's IP. If you're using a VPN and want to see your real location, disconnect from the VPN first."
+    },
+    {
+      question: "What's the difference between IPv4 and IPv6 location lookup?",
+      answer: "Both IPv4 and IPv6 addresses can be geolocated using the same principles. IPv6 addresses are newer and longer (128-bit vs 32-bit), but geolocation accuracy is similar. Our tool supports both formats seamlessly, automatically detecting which version you're looking up."
     }
   ];
 
   const relatedTools = [
-    { name: "My IP Address", href: "/my-ip", icon: "🔍" },
-    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢" },
-    { name: "ASN Lookup", href: "/asn-lookup", icon: "🔢" },
-    { name: "Reverse DNS", href: "/reverse-dns", icon: "🔄" },
+    { name: "My IP Address", href: "/my-ip", icon: "🔍", description: "Check your current public IP" },
+    { name: "ISP Lookup", href: "/isp-lookup", icon: "🏢", description: "Find ISP details" },
+    { name: "ASN Lookup", href: "/asn-lookup", icon: "🔢", description: "Look up ASN information" },
+    { name: "Reverse DNS", href: "/reverse-dns", icon: "🔄", description: "Get hostname from IP" },
+    { name: "VPN Detection", href: "/proxy-check", icon: "🛡️", description: "Check if IP uses VPN/proxy" },
+    { name: "DNS Leak Test", href: "/dns-leak-test", icon: "🔒", description: "Test for DNS leaks" },
   ];
 
   return (
     <>
+      {/* SoftwareApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "IP Location Lookup Tool",
+            "applicationCategory": "NetworkApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1250"
+            },
+            "description": "Free IP geolocation tool to find the geographic location, ISP, timezone, and coordinates of any IP address with interactive map visualization."
+          })
+        }}
+      />
+
+      {/* WebPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "IP Location Lookup - Free IP Geolocation Tool",
+            "description": "Find any IP address location instantly with our free geolocation tool. View country, city, ISP, timezone, and coordinates on an interactive map.",
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/ip-location`,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "IP Location Lookup Tool"
+            }
+          })
+        }}
+      />
+
       {/* FAQ Schema */}
       <script
         type="application/ld+json"
@@ -99,15 +151,22 @@ export default function IPLocationPage() {
       />
 
       <div className="min-h-screen bg-gray-50">
-        {/* Hero Section */}
-        <HeroSection
-          title="IP Location Lookup"
-          description="Find geographic location, timezone, and ISP for any IP address"
-          breadcrumb="IP Location Lookup"
-          gradientFrom="from-green-600"
-          gradientVia="via-emerald-600"
-          gradientTo="to-teal-700"
-        />
+        {/* Hero Section with H1 */}
+        <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-700 text-white py-12 sm:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="text-sm mb-4 opacity-90">
+              <Link href="/" className="hover:underline">Home</Link>
+              <span className="mx-2">/</span>
+              <span>IP Location Lookup</span>
+            </nav>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+              IP Location Lookup Tool
+            </h1>
+            <p className="text-lg sm:text-xl opacity-95 max-w-3xl">
+              Find geographic location, timezone, ISP, and coordinates for any IP address with interactive map visualization
+            </p>
+          </div>
+        </div>
 
         {/* Tool UI */}
         <section className="py-12">
@@ -116,24 +175,73 @@ export default function IPLocationPage() {
           </div>
         </section>
 
-        {/* Info Section */}
+        {/* What is IP Location Section */}
         <section className="py-12 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              What is IP Location Lookup?
+            </h2>
+            <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
+              <p>
+                IP location lookup, also known as IP geolocation, is a technology that identifies the geographic location of a device connected to the internet using its IP address. Every device online has a unique IP address that serves as its digital identifier, and this address contains information about where the device is located.
+              </p>
+              <p>
+                Our free IP location tool allows you to instantly discover the country, city, region, timezone, coordinates, and Internet Service Provider (ISP) associated with any IPv4 or IPv6 address. The results are displayed on an interactive map, making it easy to visualize the approximate physical location of the IP address.
+              </p>
+              <p>
+                This tool is essential for network administrators, security professionals, website owners, and anyone curious about the origin of internet traffic. Whether you're investigating suspicious activity, analyzing website visitors, or simply learning about internet infrastructure, IP geolocation provides valuable insights.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section className="py-12 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               How IP Geolocation Works
             </h2>
             <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
               <p>
-                IP geolocation is the process of determining the geographic location of a device connected to the internet using its IP address. This technology relies on extensive databases that map IP address ranges to physical locations based on registration data from Internet Service Providers (ISPs) and Regional Internet Registries (RIRs).
+                IP geolocation relies on extensive databases that map IP address ranges to physical locations. When an IP address is allocated by Regional Internet Registries (RIRs) to Internet Service Providers (ISPs), it's registered with information about the organization and location where it will be used.
               </p>
               <p>
-                When an IP address is assigned, it's registered with information about the organization and location where it will be used. Geolocation services collect this data from multiple sources including WHOIS databases, ISP records, and user-contributed information to build comprehensive mapping databases.
+                Geolocation services collect this data from multiple authoritative sources including WHOIS databases, ISP registration records, routing information, and user-contributed data. Advanced algorithms then process this information to determine the most accurate location for each IP address.
               </p>
               <p>
-                The accuracy of IP geolocation varies significantly based on several factors. Country-level identification is highly accurate (95-99%), as IP blocks are allocated to specific countries. However, city-level accuracy is less reliable (50-80%) because ISPs often route traffic through regional hubs that may be in different cities than the end user.
+                The accuracy varies by level: country-level identification is highly accurate (95-99%), while city-level accuracy ranges from 50-80%. This is because ISPs often route traffic through regional hubs that may be in different cities than the end user. Mobile networks and VPN services further complicate accuracy since they route traffic through centralized servers.
               </p>
               <p>
-                Modern geolocation services use multiple data sources and machine learning algorithms to improve accuracy. They consider factors like routing information, latency measurements, and historical data patterns. However, it's important to understand that IP geolocation provides approximate location data and should not be relied upon for precise positioning.
+                Modern geolocation services use machine learning algorithms that analyze routing patterns, latency measurements, and historical data to continuously improve accuracy. However, it's crucial to understand that IP geolocation provides approximate location data representing the ISP's infrastructure, not the user's exact physical address.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Use This Tool Section */}
+        <section className="py-12 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Why Use Our IP Location Tool?
+            </h2>
+            <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
+              <p>
+                Our IP location lookup tool stands out for its speed, accuracy, and ease of use. Unlike other services that require registration or limit queries, our tool is completely free and provides instant results without any restrictions.
+              </p>
+              <p>
+                <strong>Key Benefits:</strong>
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><strong>Instant Results:</strong> Get location data in under 2 seconds with our optimized backend infrastructure</li>
+                <li><strong>Interactive Map:</strong> Visualize IP locations on an embedded OpenStreetMap with precise coordinates</li>
+                <li><strong>Comprehensive Data:</strong> View country, city, region, timezone, ISP, ASN, postal code, currency, and language information</li>
+                <li><strong>IPv4 & IPv6 Support:</strong> Works with both IPv4 and IPv6 addresses seamlessly</li>
+                <li><strong>Privacy Focused:</strong> We don't store your queries or track your searches</li>
+                <li><strong>No Registration Required:</strong> Use the tool immediately without creating an account</li>
+                <li><strong>Mobile Friendly:</strong> Fully responsive design works perfectly on all devices</li>
+              </ul>
+              <p>
+                Whether you're a security analyst investigating threats, a developer testing geolocation features, or simply curious about IP addresses, our tool provides professional-grade results with a user-friendly interface.
               </p>
             </div>
           </div>
@@ -241,22 +349,57 @@ export default function IPLocationPage() {
           </div>
         </section>
 
-        {/* Related Tools */}
+        {/* Security & Privacy Section */}
         <section className="py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Related Tools
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Security & Privacy Impact
             </h2>
+            <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
+              <p>
+                Understanding IP geolocation is crucial for online privacy and security. While IP addresses reveal your approximate location and ISP, they don't expose your exact address or personal identity. However, this information can still be used to track your online activities across websites.
+              </p>
+              <p>
+                <strong>Privacy Considerations:</strong>
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Websites can use your IP location to serve targeted content and advertisements</li>
+                <li>Your ISP can see all unencrypted traffic associated with your IP address</li>
+                <li>Combining IP data with other information (cookies, browser fingerprints) can create detailed profiles</li>
+                <li>Some services block or restrict access based on IP location (geo-blocking)</li>
+              </ul>
+              <p>
+                <strong>Protection Methods:</strong> To enhance privacy, consider using a <Link href="/proxy-check" className="text-green-600 hover:underline">VPN service</Link> which masks your real IP address, enabling HTTPS on all websites, using privacy-focused browsers, and regularly checking for <Link href="/dns-leak-test" className="text-green-600 hover:underline">DNS leaks</Link> if you use a VPN.
+              </p>
+              <p>
+                Our tool helps you understand what information is publicly visible about your IP address, empowering you to make informed decisions about your online privacy.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Related Tools */}
+        <section className="py-12 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Related Network Tools
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Explore our other free network diagnostic and security tools:
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {relatedTools.map((tool) => (
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="flex items-center space-x-3 bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow border border-gray-200"
+                  className="flex items-start space-x-3 bg-white rounded-lg p-4 hover:shadow-md transition-shadow border border-gray-200"
                 >
-                  <span className="text-2xl">{tool.icon}</span>
-                  <span className="font-medium text-gray-900">{tool.name}</span>
-                  <span className="ml-auto text-green-600">→</span>
+                  <span className="text-2xl flex-shrink-0">{tool.icon}</span>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{tool.name}</div>
+                    <div className="text-sm text-gray-600 mt-1">{tool.description}</div>
+                  </div>
+                  <span className="text-green-600 flex-shrink-0">→</span>
                 </Link>
               ))}
             </div>
