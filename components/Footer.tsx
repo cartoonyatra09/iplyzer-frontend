@@ -113,14 +113,9 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-800">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
-            <p className="text-xs text-gray-400 text-center sm:text-left">
-              © {currentYear} IPlyzer. All rights reserved.
-            </p>
-            <p className="text-xs text-gray-400 text-center sm:text-right">
-              Made with ❤️ for the internet
-            </p>
-          </div>
+          <p className="text-xs sm:text-sm text-gray-400 text-center">
+            © {currentYear} IPlyzer.com All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
